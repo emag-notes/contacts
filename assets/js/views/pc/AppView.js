@@ -4,19 +4,15 @@ define([
     'backbone',
     './ListView',
     './NewView',
+    './ShowView',
+    './EditView',
     'jst/pc'
-], function($, _, Backbone, ListView, NewView, JST) {
+], function($, _, Backbone, ListView, NewView, ShowView, EditView, JST) {
 
     'use strict';
 
     var AppView = Backbone.View.extend({
         mainview: null,
-        events: {
-            'click .new': function(e) {
-                e.preventDefault();
-                Backbone.history.navigate('new', true);
-            }
-        },
         initialize: function() {
             this.listenTo(this.options.router, 'route', this.dispatch);
         },
@@ -37,12 +33,30 @@ define([
                 case 'new':
                     this.newContact();
                     break;
+                case 'show':
+                    this.showContact.apply(this, args);
+                    break;
+                case 'edit':
+                    this.editContact.apply(this, args);
+                    break;
             }
         },
         newContact: function() {
             var model = new this.collection.model(null, {collection: this.collection});
             this.mainview = new NewView({model: model});
             this.$('#main').append(this.mainview.render().el);
+        },
+        showContact: function(id) {
+            var model = this.collection.get(id);
+            if (!model) return;
+            this.mainview = new ShowView({model: model});
+            this.$('#main').html(this.mainview.render().el);
+        },
+        editContact: function(id) {
+            var model = this.collection.get(id);
+            if (!model) return;
+            this.mainview = new EditView({model: model});
+            this.$('#main').html(this.mainview.render().el);
         }
     });
     return AppView;

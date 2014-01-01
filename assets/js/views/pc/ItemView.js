@@ -7,6 +7,12 @@ define([
 
     var ItemView = Backbone.View.extend({
         tagName: 'li',
+        events: {
+            'click a': function(e) {
+                e.preventDefault();
+                Backbone.history.navigate(this.model.id, true);
+            }
+        },
         initialize: function() {
             this.listenTo(this.model, 'change', this.render);
             this.listenTo(this.model, 'remove', this.remove);

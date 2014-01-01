@@ -24,7 +24,7 @@ define([
             this.$('form').on('submit', _.bind(this.onSubmit, this));
             return this;
         },
-        renderValidationMessage: function() {
+        renderValidationMessage: function(model, errors) {
             var lis = _.map(errors, function(value, name) {
                 return '<li><strong>' + name + '</strong>' + value + '</li>';
             });

@@ -1,0 +1,17 @@
+<a href="#<%= source.id %>">
+    <h3><%= source.name %></h3>
+    <%
+    if(source.email) {
+    %>
+    <p><%= source.email %></p>
+    <%
+    }
+    %>
+    <%
+    if(source.phone) {
+    %>
+    <p><%= source.phone %></p>
+    <%
+    }
+    %>
+</a>

@@ -1,7 +1,10 @@
 define([
+    'jquery',
     'underscore',
-    'backbone'
-], function(_, Backbone) {
+    'backbone',
+    './ListView',
+    'jst/pc'
+], function($, _, Backbone, ListView, JST) {
 
     'use strict';
 
@@ -9,6 +12,14 @@ define([
         mainview: null,
         initialize: function() {
             this.listenTo(this.options.router, 'route', this.dispatch);
+        },
+        render: function() {
+            this.$el.html(JST['pc/app']());
+            this.listview = new ListView({
+                collection: this.collection
+            });
+            this.$('#contactlist').append(this.listview.render().el);
+            return this;
         },
         dispatch: function(name, args) {
             if (!_.include(['index', 'new', 'show', 'edit'], name)) return;

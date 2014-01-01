@@ -1,4 +1,4 @@
-var require = {
+require.config({
     baseUrl: '/assets/js',
     paths: {
         'jquery': 'vendor/jquery-2.0.3',
@@ -12,8 +12,8 @@ var require = {
             exports: '_'
         },
         'backbone': {
-            exports: "Backbone",
+            exports: 'Backbone',
             deps: ['jquery', 'underscore']
         }
     }
-};
+});

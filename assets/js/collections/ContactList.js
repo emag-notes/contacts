@@ -6,11 +6,21 @@ define([
 
     'use strict';
 
+    // Singleton
+    var instance;
+
     var ContactList = Backbone.Collection.extend({
-        localStorage: new LocalStorage("contact"),
         model: Contact,
+        localStorage: new LocalStorage("contact"),
         comparator: function(contact) {
             return contact.index();
+        },
+        constructor: function() {
+            if(!instance) {
+                instance = this;
+                Backbone.Collection.apply(instance, arguments);
+            }
+            return instance;
         }
     });
     return ContactList;

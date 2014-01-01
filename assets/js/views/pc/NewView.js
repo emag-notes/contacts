@@ -21,7 +21,7 @@ define([
         },
         render: function() {
             this.$el.html(JST['pc/new']({source: this.presenter()}));
-            this.$('form').on('submit', this.onSubmit);
+            this.$('form').on('submit', _.bind(this.onSubmit, this));
             return this;
         },
         renderValidationMessage: function() {
@@ -32,8 +32,8 @@ define([
             return this;
         },
         onSubmit: function(e) {
+            e.preventDefault();
             var model = this.model;
-            this.$('.alert').hide();
             model.save(this.getValues());
         },
         presenter: function() {

@@ -13,6 +13,7 @@ define([
         mainview: null,
         events: {
             'click .new': function(e) {
+                e.preventDefault();
                 Backbone.history.navigate('new', true);
             }
         },

@@ -3,13 +3,19 @@ define([
     'underscore',
     'backbone',
     './ListView',
+    './NewView',
     'jst/pc'
-], function($, _, Backbone, ListView, JST) {
+], function($, _, Backbone, ListView, NewView, JST) {
 
     'use strict';
 
     var AppView = Backbone.View.extend({
         mainview: null,
+        events: {
+            'click .new': function(e) {
+                Backbone.history.navigate('new', true);
+            }
+        },
         initialize: function() {
             this.listenTo(this.options.router, 'route', this.dispatch);
         },
@@ -24,6 +30,18 @@ define([
         dispatch: function(name, args) {
             if (!_.include(['index', 'new', 'show', 'edit'], name)) return;
             if (this.mainview) this.mainview.remove();
+            args || (args = []);
+            this.listview.select(args[0]);
+            switch (name) {
+                case 'new':
+                    this.newContact();
+                    break;
+            }
+        },
+        newContact: function() {
+            var model = new this.collection.model(null, {collection: this.collection});
+            this.mainview = new NewView({model: model});
+            this.$('#main').append(this.mainview.render().el);
         }
     });
     return AppView;

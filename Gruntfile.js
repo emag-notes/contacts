@@ -4,8 +4,11 @@ module.exports = function(grunt) {
 
     [
         'grunt-contrib-jst',
-        'grunt-contrib-requirejs'
-    ].foreach(function(name) {
+        'grunt-contrib-requirejs',
+        'grunt-contrib-jasmine',
+        'grunt-contrib-watch',
+        'grunt-contrib-connect'
+    ].forEach(function(name) {
         grunt.loadNpmTasks(name);
     });
 
@@ -55,8 +58,34 @@ module.exports = function(grunt) {
                     name: 'mobile'
                 }
             }
+        },
+
+        jasmine: {
+            all: {
+                options: {
+                    outfile: 'test/index.html',
+                    host: 'http://localhost:8000/'
+                }
+            }
+        },
+
+        watch: {
+            jst: {
+                files: ['assets/js/templates/**/*.html'],
+                tasks: ['jst']
+            }
+        },
+
+        connect: {
+            server: {
+                options: {
+                    port: 8000
+                }
+            }
         }
 
     });
 
+    grunt.registerTask('test:jasmine', ['connect', 'jasmine']);
+    grunt.registerTask('default', ['connect', 'watch']);
 };
